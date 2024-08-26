@@ -112,7 +112,6 @@ fi
 topic "Installing Google Chrome from the $channel channel."
 
 PACKAGES="$PACKAGES https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_127.0.6533.119-1_amd64.deb"
-rm -f $APT_CACHE_DIR/archives/google-chrome-stable_current_amd64.deb
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -141,8 +140,12 @@ done
 mkdir -p $BUILD_DIR/.apt
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  topic "Installing $(basename $DEB)"
-  dpkg -x $DEB $BUILD_DIR/.apt/
+  if [ "$(basename $DEB)" == "google-chrome-stable_current_amd64.deb" ]; then
+    rm -f $DEB
+  else
+    topic "Installing $(basename $DEB)"
+    dpkg -x $DEB $BUILD_DIR/.apt/
+  fi
 done
 
 topic "Writing profile script"
