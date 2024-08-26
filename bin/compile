@@ -80,6 +80,7 @@ case "${STACK}" in
       libgbm1
       libgconf-2-4
       libgtk-3-0
+      libffi8
       libnspr4
       libnss3
       libx11-xcb1
